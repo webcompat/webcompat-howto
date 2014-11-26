@@ -59,7 +59,9 @@ This really depends on the way the client detection has been organized. It might
 As Web developers, you can easily put in place a list of simple tests to check if the client is receiving the expected HTTP response headers for the `User-Agent` strings sent to the server. This becomes
 
 ## Benefits
-Explain why it would be beneficial to fix it (apart of being a better Web citizen).
+
+* The immediate benefits is to reach out more devices, so more market share. Very often the User agent detection fails for no good reasons. The Web site is perfectly working on the device.
+* The second reason is indirect but by ensuring that your Web site is accessible to more devices, you will avoid to target too specifically the star-device of the moment and reduce your maintenance cost for the future when another device has taken the lead.
 
 ## References
 Put here additional references to documentation.
