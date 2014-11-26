@@ -1,7 +1,7 @@
 Title: Fixing Flexbox Incompatibilities
 Category: css
 Created: 2014-11-10
-Updated: 2014-11-10
+Updated: 2014-11-26
 
 ## Description
 
