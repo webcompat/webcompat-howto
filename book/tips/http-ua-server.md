@@ -19,10 +19,44 @@ The HTTP header `User-Agent` identifies the client. It is very often used by ser
 Sometimes users will receive the wrong content or wrong expected user experience, very often the desktop content instead of the mobile content. Sometimes users will be completely denied the access to the Web site.
 
 ## How to detect
-Explain what are the ways of investigating the issue. You may add a couple of images and code samples.
+
+There is no unique way to detect HTTP server side `User-Agent` detection, but there are patterns that can be automated easily. The easiest and quickest one is to use a command line HTTP client such as [curl](http://curl.haxx.se/) or [httpie](http://httpie.org/) and to make the request to the same resource with a different `User-Agent` string. For example, using httpie.
+
+Requesting an imaginary Web site at `http://www.example.com/` with Safari iOS 7 `User-Agent` string:
+
+    → http HEAD http://www.example.com/ 'User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/6.0 Mobile/11A465 Safari/9537.53'
+
+We could get this response from the server:
+
+    HTTP/1.1 301 Permanent Redirect
+    Age: 0
+    Date: Tue, 16 Sep 2014 00:05:29 GMT
+    Location: http://m.magazineluiza.com.br
+
+While when requesting with Firefox OS `User-Agent` string.
+
+    → http HEAD http://www.example.com/ 'User-Agent: Mozilla/5.0 (Mobile; rv:32) Gecko/32 Firefox/32'
+
+we could get this response from the server:
+
+    HTTP/1.1 200 OK
+    Age: 365
+    Cache-Control: public, max-age=600, s-maxage=450
+    Content-Encoding: gzip
+    Content-Length: 45752
+    Content-Type: text/html; charset=UTF-8
+    Date: Tue, 16 Sep 2014 00:06:01 GMT
+
+We can notice right away that iOS is being redirected to a mobile Web site `301` status and `Location:` header, while Firefox OS is receiving a `200` and content probably tailored for Desktop.
+
+Sometimes we can detect the differences through the size of the content which has been sent to different user agents through the `Content-Length` HTTP header.
+
 
 ## How to fix it
-What is the simplest way to fix it? If there is a process you can use to do it, explain it. If there are tools, give them.
+
+This really depends on the way the client detection has been organized. It might be handled by a server code library (PHP, ASP, etc.), it might be coming from a database or sometimes from a configuration file of the server itself. You need to find the person who is in control of the server and discuss with this person the chosen strategies for the server detection. External User agent databases can be very practical but they describe only the past. Any new User agent will fail, if it doesn't fit in the common patterns of the database. It means you need to rely on a rapid release update system and continue to pay the fees for seeing the Web site working in the future with new devices.
+
+As Web developers, you can easily put in place a list of simple tests to check if the client is receiving the expected HTTP response headers for the `User-Agent` strings sent to the server. This becomes
 
 ## Benefits
 Explain why it would be beneficial to fix it (apart of being a better Web citizen).
